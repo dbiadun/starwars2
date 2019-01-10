@@ -1,40 +1,58 @@
-//
-// Created by dawid on 09.01.19.
-//
-
 #ifndef STARWARS2_HELPER_H
 #define STARWARS2_HELPER_H
 
-using ShieldPoints = int;
-using AttackPower = int;
+#include <memory>
 
-class DefendingUnit {
+using ShieldPoints = unsigned int;
+using AttackPower = unsigned int;
+
+class AttackingUnit;
+
+class AttackableUnit {
 public:
-    DefendingUnit(ShieldPoints shield) : shield(shield) {}
+    explicit AttackableUnit(ShieldPoints shield) : shield(shield) {}
+
+    virtual ~AttackableUnit() = default;
 
     ShieldPoints getShield() {
         return shield;
-    };
+    }
 
-    virtual void takeDamage(AttackPower damage) {
-        shield -= damage;
-    };
+    virtual void takeDamage(AttackPower damage) = 0;
+
+    virtual void getAttacked(AttackingUnit &) = 0;
 
 protected:
     ShieldPoints shield;
 };
 
-class AttackingUnit {
+class AttackingUnit : virtual public AttackableUnit {
 public:
-    AttackingUnit(AttackPower attackPower) : attackPower(attackPower) {}
+    AttackingUnit(ShieldPoints shield, AttackPower attackPower) : AttackableUnit(shield), attackPower(attackPower) {}
 
     AttackPower getAttackPower() {
         return attackPower;
-    };
+    }
 
-    virtual void attack() = 0;
+    void attack(AttackableUnit &unit) {
+        unit.getAttacked(*this);
+    }
+
 protected:
     AttackPower attackPower;
+};
+
+class Starship : virtual public AttackableUnit {
+public:
+    explicit Starship(ShieldPoints shield) : AttackableUnit(shield) {}
+
+    void takeDamage(AttackPower damage) override {
+        if (damage > shield) {
+            shield = 0;
+        } else {
+            shield -= damage;
+        }
+    }
 };
 
 
