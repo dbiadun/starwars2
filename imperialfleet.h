@@ -51,7 +51,7 @@ public:
 
 class Squadron : public ImperialUnit {
 public:
-    Squadron(std::vector<std::shared_ptr<ImperialUnit>> &subunits)
+    Squadron(std::vector<UnitPtr<ImperialUnit>> &subunits)
             : AttackableUnit(0), ImperialUnit(0, 0), subunits(subunits) {
         for (auto unit : subunits) {
             shield += unit->getShield();
@@ -59,7 +59,7 @@ public:
         }
     }
 
-    Squadron(std::initializer_list<std::shared_ptr<ImperialUnit>> subunits)
+    Squadron(std::initializer_list<UnitPtr<ImperialUnit>> subunits)
             : AttackableUnit(0), ImperialUnit(0, 0), subunits(subunits) {
         for (auto unit : subunits) {
             shield += unit->getShield();
@@ -79,27 +79,27 @@ public:
     }
 
 private:
-    std::vector<std::shared_ptr<ImperialUnit>> subunits;
+    std::vector<UnitPtr<ImperialUnit>> subunits;
 };
 
-std::shared_ptr<DeathStar> createDeathStar(ShieldPoints shield, AttackPower attackPower) {
-    return std::make_shared<DeathStar>(shield, attackPower);
+UnitPtr<DeathStar> createDeathStar(ShieldPoints shield, AttackPower attackPower) {
+    return makeUnitPtr<DeathStar>(shield, attackPower);
 }
 
-std::shared_ptr<ImperialDestroyer> createImperialDestroyer(ShieldPoints shield, AttackPower attackPower) {
-    return std::make_shared<ImperialDestroyer>(shield, attackPower);
+UnitPtr<ImperialDestroyer> createImperialDestroyer(ShieldPoints shield, AttackPower attackPower) {
+    return makeUnitPtr<ImperialDestroyer>(shield, attackPower);
 }
 
-std::shared_ptr<TIEFighter> createTIEFighter(ShieldPoints shield, AttackPower attackPower) {
-    return std::make_shared<TIEFighter>(shield, attackPower);
+UnitPtr<TIEFighter> createTIEFighter(ShieldPoints shield, AttackPower attackPower) {
+    return makeUnitPtr<TIEFighter>(shield, attackPower);
 }
 
-std::shared_ptr<Squadron> createSquadron(std::vector<std::shared_ptr<ImperialUnit>> subunits) {
-    return std::make_shared<Squadron>(subunits);
+UnitPtr<Squadron> createSquadron(std::vector<UnitPtr<ImperialUnit>> subunits) {
+    return makeUnitPtr<Squadron>(subunits);
 }
 
-std::shared_ptr<Squadron> createSquadron(std::initializer_list<std::shared_ptr<ImperialUnit>> subunits) {
-    return std::make_shared<Squadron>(subunits);
+UnitPtr<Squadron> createSquadron(std::initializer_list<UnitPtr<ImperialUnit>> subunits) {
+    return makeUnitPtr<Squadron>(subunits);
 }
 
 #endif //STARWARS2_IMPERIALFLEET_H

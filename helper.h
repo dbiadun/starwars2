@@ -1,8 +1,16 @@
 #ifndef STARWARS2_HELPER_H
 #define STARWARS2_HELPER_H
 
+#include <memory>
+
 using ShieldPoints = unsigned int;
 using AttackPower = unsigned int;
+template <typename T> using UnitPtr = std::shared_ptr<T>;
+
+template <typename T, typename... Args>
+UnitPtr<T> makeUnitPtr(Args&&... args) {
+    return std::make_shared<T>(std::forward<Args>(args)...);
+}
 
 class AttackingUnit;
 

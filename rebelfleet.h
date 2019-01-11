@@ -75,16 +75,16 @@ public:
     }
 };
 
-std::shared_ptr<Explorer> createExplorer(ShieldPoints shield, Speed speed) {
-    return std::make_shared<Explorer>(shield, speed);
+UnitPtr<Explorer> createExplorer(ShieldPoints shield, Speed speed) {
+    return makeUnitPtr<Explorer>(shield, speed);
 }
 
-std::shared_ptr<StarCruiser> createStarCruiser(ShieldPoints shield, Speed speed, AttackPower attackPower) {
-    return std::make_shared<StarCruiser>(shield, speed, attackPower);
+UnitPtr<StarCruiser> createStarCruiser(ShieldPoints shield, Speed speed, AttackPower attackPower) {
+    return makeUnitPtr<StarCruiser>(shield, speed, attackPower);
 }
 
-std::shared_ptr<XWing> createXWing(ShieldPoints shield, Speed speed, AttackPower attackPower) {
-    return std::make_shared<XWing>(shield, speed, attackPower);
+UnitPtr<XWing> createXWing(ShieldPoints shield, Speed speed, AttackPower attackPower) {
+    return makeUnitPtr<XWing>(shield, speed, attackPower);
 }
 
 
