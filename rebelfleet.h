@@ -1,6 +1,8 @@
 #ifndef STARWARS2_REBELFLEET_H
 #define STARWARS2_REBELFLEET_H
 
+#include <memory>
+#include <assert.h>
 #include "helper.h"
 
 using Speed = unsigned int;
@@ -12,6 +14,8 @@ public:
     Speed getSpeed() {
         return speed;
     }
+
+    void tryToAttack(AttackableUnit &unit) override {}
 
 private:
     Speed speed;
@@ -50,19 +54,25 @@ AttackingRebelStarship::~AttackingRebelStarship() {}
 class Explorer : public NonattackingRebelStarship {
 public:
     Explorer(ShieldPoints shield, Speed speed)
-            : AttackableUnit(shield), NonattackingRebelStarship(shield, speed) {}
+            : AttackableUnit(shield), NonattackingRebelStarship(shield, speed) {
+        assert(speed >= 299796 && speed <= 2997960);
+    }
 };
 
 class StarCruiser : public AttackingRebelStarship {
 public:
     StarCruiser(ShieldPoints shield, Speed speed, AttackPower attackPower)
-            : AttackableUnit(shield), AttackingRebelStarship(shield, speed, attackPower) {}
+            : AttackableUnit(shield), AttackingRebelStarship(shield, speed, attackPower) {
+        assert(speed >= 99999 && speed <= 299795);
+    }
 };
 
 class XWing : public AttackingRebelStarship {
 public:
     XWing(ShieldPoints shield, Speed speed, AttackPower attackPower)
-            : AttackableUnit(shield), AttackingRebelStarship(shield, speed, attackPower) {}
+            : AttackableUnit(shield), AttackingRebelStarship(shield, speed, attackPower) {
+        assert(speed >= 299796 && speed <= 2997960);
+    }
 };
 
 std::shared_ptr<Explorer> createExplorer(ShieldPoints shield, Speed speed) {

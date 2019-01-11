@@ -1,8 +1,6 @@
 #ifndef STARWARS2_HELPER_H
 #define STARWARS2_HELPER_H
 
-#include <memory>
-
 using ShieldPoints = unsigned int;
 using AttackPower = unsigned int;
 
@@ -21,6 +19,8 @@ public:
     virtual void takeDamage(AttackPower damage) = 0;
 
     virtual void getAttacked(AttackingUnit &) = 0;
+
+    virtual void tryToAttack(AttackableUnit &) = 0;
 
 protected:
     ShieldPoints shield;
