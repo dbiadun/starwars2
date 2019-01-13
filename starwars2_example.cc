@@ -13,29 +13,29 @@ int main() {
     auto fighter = createTIEFighter(50, 9);
     auto destroyer = createImperialDestroyer(150, 20);
     auto squadron = createSquadron({deathStar, fighter});
-//
-//    auto battle = SpaceBattle::Builder()
-//        .ship(squadron)
-//        .startTime(2)
-//        .maxTime(23)
-//        .ship(xwing)
-//        .ship(explorer)
-//        .build();
-//
-//    assert(battle.countRebelFleet() == 2);
-//    assert(battle.countImperialFleet() == 2);
-//
-//    battle.tick(3);
-//    assert(battle.countRebelFleet() == 2);
-//    assert(battle.countImperialFleet() == 1);
-//
-//    battle.tick(1);
-//    assert(battle.countRebelFleet() == 2);
-//    assert(battle.countImperialFleet() == 1);
-//
-//    battle.tick(4);
-//    assert(battle.countRebelFleet() == 0);
-//    assert(battle.countImperialFleet() == 1);
-//
-//    battle.tick(1); // Wypisuje "IMPERIUM WON\n".
+
+   auto battle = SpaceBattle::Builder()
+	   .ship(squadron)
+	   .startTime(2)
+	   .maxTime(23)
+	   .ship(xwing)
+	   .ship(explorer)
+	   .build();
+
+   assert(battle.countRebelFleet() == 2);
+   assert(battle.countImperialFleet() == 2);
+
+   battle.tick(3);
+   assert(battle.countRebelFleet() == 2);
+   assert(battle.countImperialFleet() == 1);
+
+   battle.tick(1);
+   assert(battle.countRebelFleet() == 2);
+   assert(battle.countImperialFleet() == 1);
+
+   battle.tick(4);
+   assert(battle.countRebelFleet() == 0);
+   assert(battle.countImperialFleet() == 1);
+
+   battle.tick(1); // Wypisuje "IMPERIUM WON\n".
 }

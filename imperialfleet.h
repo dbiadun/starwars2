@@ -16,6 +16,13 @@ public:
     void tryToAttack(AttackableUnit &unit) override {
         unit.getAttacked(*this);
     }
+
+	size_t getAlive() {
+		return alive;
+	}
+
+protected:
+	size_t alive = 1;
 };
 
 class ImperialStarship : public ImperialUnit, public Starship {
@@ -24,6 +31,13 @@ public:
             : ImperialUnit(shield, attackPower), Starship(shield) {}
 
     ~ImperialStarship() override = 0;
+
+	void takeDamage(AttackPower damage) override {
+		Starship::takeDamage(damage);
+		if (getShield() == 0) {
+			alive = 0;
+		}
+	}
 };
 
 ImperialStarship::~ImperialStarship() {}
@@ -51,28 +65,36 @@ class Squadron : public ImperialUnit {
 public:
     Squadron(std::vector<UnitPtr<ImperialUnit>> &subunits)
             : AttackableUnit(0), ImperialUnit(0, 0), subunits(subunits) {
+		alive = 0;
         for (auto unit : subunits) {
             shield += unit->getShield();
             attackPower += unit->getAttackPower();
+			alive += unit->getAlive();
         }
+		alive = subunits.size();
     }
 
     Squadron(std::initializer_list<UnitPtr<ImperialUnit>> subunits)
             : AttackableUnit(0), ImperialUnit(0, 0), subunits(subunits) {
+		alive = 0;
         for (auto unit : subunits) {
             shield += unit->getShield();
             attackPower += unit->getAttackPower();
+			alive += unit->getAlive();
         }
     }
 
     void takeDamage(AttackPower damage) override {
         for (auto unit : subunits) {
+			unsigned int startAlive = unit->getAlive();
             unsigned int startShield = unit->getShield();
             unit->takeDamage(damage);
             unsigned int endShield = unit->getShield();
 
             assert(shield >= startShield - endShield);
             shield -= (startShield - endShield);
+
+			alive -= startAlive - unit->getAlive();
         }
     }
 
