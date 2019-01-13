@@ -44,7 +44,7 @@ public:
 
     void getAttacked(AttackingUnit &unit) override {
         takeDamage(unit.getAttackPower());
-        unit.getAttacked(*this);
+        unit.takeDamage(getAttackPower());
     }
 };
 

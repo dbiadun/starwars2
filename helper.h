@@ -42,10 +42,6 @@ public:
         return attackPower;
     }
 
-    void attack(AttackableUnit &unit) {
-        unit.getAttacked(*this);
-    }
-
 protected:
     AttackPower attackPower;
 };

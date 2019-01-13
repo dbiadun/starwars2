@@ -11,9 +11,7 @@ class ImperialUnit : public AttackingUnit {
 public:
     ImperialUnit(ShieldPoints shield, AttackPower attackPower) : AttackingUnit(shield, attackPower) {}
 
-    void getAttacked(AttackingUnit &unit) override {
-        takeDamage(unit.getAttackPower());
-    }
+    void getAttacked(AttackingUnit &unit) override {}
 
     void tryToAttack(AttackableUnit &unit) override {
         unit.getAttacked(*this);
