@@ -9,11 +9,15 @@
 
 class ImperialUnit : public AttackingUnit {
 public:
-    ImperialUnit(ShieldPoints shield, AttackPower attackPower) : AttackingUnit(shield, attackPower) {}
+    ImperialUnit(ShieldPoints shield, AttackPower attackPower) : AttackingUnit(shield, attackPower) {
+        if (shield == 0) this->attackPower = 0;
+    }
 
-    void getAttacked(AttackingUnit &unit) override {}
+    void getAttacked(AttackingUnit &unit) override {
+        takeDamage(unit.getAttackPower());
+    }
 
-    void tryToAttack(AttackableUnit &unit) override {
+    void attack(AttackableUnit &unit) {
         unit.getAttacked(*this);
     }
 
@@ -36,6 +40,7 @@ public:
 		Starship::takeDamage(damage);
 		if (getShield() == 0) {
 			alive = 0;
+			attackPower = 0;
 		}
 	}
 };
@@ -87,12 +92,15 @@ public:
     void takeDamage(AttackPower damage) override {
         for (auto unit : subunits) {
 			unsigned int startAlive = unit->getAlive();
-            unsigned int startShield = unit->getShield();
+			AttackPower startAttackPower = unit->getAttackPower();
+            ShieldPoints startShield = unit->getShield();
             unit->takeDamage(damage);
-            unsigned int endShield = unit->getShield();
+            ShieldPoints endShield = unit->getShield();
+            AttackPower endAttackPower = unit->getAttackPower();
 
-            assert(shield >= startShield - endShield);
+            assert(startShield >= endShield && shield >= startShield - endShield);
             shield -= (startShield - endShield);
+            attackPower -= (startAttackPower - endAttackPower);
 
 			alive -= startAlive - unit->getAlive();
         }

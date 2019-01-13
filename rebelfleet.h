@@ -5,17 +5,17 @@
 #include <assert.h>
 #include "helper.h"
 
-using Speed = unsigned int;
+using Speed = int;
 
 class RebelStarship : public Starship {
 public:
-    explicit RebelStarship(ShieldPoints shield, Speed speed) : Starship(shield), speed(speed) {}
+    explicit RebelStarship(ShieldPoints shield, Speed speed) : Starship(shield), speed(speed) {
+        assert(speed >= 0);
+    }
 
     Speed getSpeed() {
         return speed;
     }
-
-    void tryToAttack(AttackableUnit &unit) override {}
 
 private:
     Speed speed;
@@ -44,7 +44,7 @@ public:
 
     void getAttacked(AttackingUnit &unit) override {
         takeDamage(unit.getAttackPower());
-        unit.takeDamage(getAttackPower());
+        unit.getAttacked(*this);
     }
 };
 

@@ -1,10 +1,11 @@
 #ifndef STARWARS2_HELPER_H
 #define STARWARS2_HELPER_H
 
+#include <assert.h>
 #include <memory>
 
-using ShieldPoints = unsigned int;
-using AttackPower = unsigned int;
+using ShieldPoints = int;
+using AttackPower = int;
 template <typename T> using UnitPtr = std::shared_ptr<T>;
 
 template <typename T, typename... Args>
@@ -16,7 +17,9 @@ class AttackingUnit;
 
 class AttackableUnit {
 public:
-    explicit AttackableUnit(ShieldPoints shield) : shield(shield) {}
+    explicit AttackableUnit(ShieldPoints shield) : shield(shield) {
+        assert(shield >= 0);
+    }
 
     virtual ~AttackableUnit() = default;
 
@@ -28,15 +31,15 @@ public:
 
     virtual void getAttacked(AttackingUnit &) = 0;
 
-    virtual void tryToAttack(AttackableUnit &) = 0;
-
 protected:
     ShieldPoints shield;
 };
 
 class AttackingUnit : virtual public AttackableUnit {
 public:
-    AttackingUnit(ShieldPoints shield, AttackPower attackPower) : AttackableUnit(shield), attackPower(attackPower) {}
+    AttackingUnit(ShieldPoints shield, AttackPower attackPower) : AttackableUnit(shield), attackPower(attackPower) {
+        assert(attackPower >= 0);
+    }
 
     AttackPower getAttackPower() {
         return attackPower;
